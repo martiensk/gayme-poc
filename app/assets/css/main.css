@@ -1,0 +1,76 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme static {
+  --font-sans: 'Public Sans', sans-serif;
+
+  --color-green-50: #EFFDF5;
+  --color-green-100: #D9FBE8;
+  --color-green-200: #B3F5D1;
+  --color-green-300: #75EDAE;
+  --color-green-400: #00DC82;
+  --color-green-500: #00C16A;
+  --color-green-600: #00A155;
+  --color-green-700: #007F45;
+  --color-green-800: #016538;
+  --color-green-900: #0A5331;
+  --color-green-950: #052E16;
+}
+
+.panel-shell {
+  @apply flex h-full flex-col overflow-hidden rounded-lg border border-default;
+}
+
+.panel-shell__header {
+  @apply flex items-center justify-between border-b border-default bg-muted/30 px-3 py-2;
+}
+
+.panel-shell__title-wrap {
+  @apply min-w-0;
+}
+
+.panel-shell__title {
+  @apply truncate text-xs font-semibold uppercase tracking-wide text-muted;
+}
+
+.panel-shell__controls {
+  @apply flex items-center gap-1;
+}
+
+.panel-shell__content {
+  @apply h-full min-h-0 flex-1;
+}
+
+.panel-float {
+  @apply fixed flex flex-col overflow-hidden rounded-lg border border-default bg-default shadow-2xl;
+  box-shadow: 0 20px 40px -14px rgb(0 0 0 / 0.45);
+}
+
+.panel-float__header {
+  @apply flex cursor-move items-center justify-between border-b border-default bg-muted/30 px-3 py-2;
+}
+
+.panel-float__title-wrap {
+  @apply min-w-0;
+}
+
+.panel-float__title {
+  @apply truncate text-xs font-semibold uppercase tracking-wide text-muted;
+}
+
+.panel-float__controls {
+  @apply flex items-center gap-1;
+}
+
+.panel-float__content {
+  @apply min-h-0 flex-1;
+}
+
+.panel-float__resize {
+  @apply absolute bottom-0 right-0 h-4 w-4 cursor-se-resize border-0 bg-transparent;
+}
+
+.panel-float__resize::after {
+  content: '';
+  @apply absolute bottom-1 right-1 h-2.5 w-2.5 rounded-sm border-b border-r border-muted;
+}
