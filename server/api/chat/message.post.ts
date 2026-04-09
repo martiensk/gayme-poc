@@ -119,7 +119,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const defaultProvider = getProvider(runtimeConfig.chat.defaultProvider, 'qwen3')
+  const defaultProvider = getProvider(runtimeConfig.public.chat.defaultProvider, 'qwen3')
   const provider = getProvider(body.provider, defaultProvider)
   const chatId = normalizeIdentifier(body.chatId ?? '', 'default')
   const userId = resolveUserId(event)

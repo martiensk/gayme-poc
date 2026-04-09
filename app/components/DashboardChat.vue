@@ -78,6 +78,14 @@ const { provider, chatId } = useChatSettings()
 let lastUserMessageContent = ''
 let abortController: AbortController | null = null
 
+const createMessageId = () => {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID()
+  }
+
+  return `msg-${Date.now()}-${Math.random().toString(16).slice(2)}`
+}
+
 const toContent = (message: UIChatMessage): string => message.parts
   .filter(part => part.type === 'text')
   .map(part => part.text)
@@ -93,7 +101,7 @@ const getErrorMessage = (error: unknown): string => {
 
 const pushAssistantError = (errorText: string) => {
   messages.value.push({
-    id: crypto.randomUUID(),
+    id: createMessageId(),
     role: 'assistant',
     parts: [{ type: 'text', text: errorText }]
   })
@@ -156,7 +164,7 @@ const sendMessage = async (content: string) => {
   }
 
   messages.value.push({
-    id: crypto.randomUUID(),
+    id: createMessageId(),
     role: 'assistant',
     parts: [{ type: 'text', text: reply }]
   })
@@ -180,7 +188,7 @@ const onSubmit = async (event: Event) => {
   lastUserMessageContent = content
 
   messages.value.push({
-    id: crypto.randomUUID(),
+    id: createMessageId(),
     role: 'user',
     parts: [{ type: 'text', text: content }]
   })
@@ -212,7 +220,7 @@ const onReload = async () => {
   }
 
   messages.value.push({
-    id: crypto.randomUUID(),
+    id: createMessageId(),
     role: 'user',
     parts: [{ type: 'text', text: lastUserMessageContent }]
   })

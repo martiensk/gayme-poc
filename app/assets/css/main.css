@@ -3,26 +3,382 @@
 
 @theme static {
   --font-sans: 'Public Sans', sans-serif;
+  --font-heading: 'Cinzel', serif;
 
-  --color-green-50: #EFFDF5;
-  --color-green-100: #D9FBE8;
-  --color-green-200: #B3F5D1;
-  --color-green-300: #75EDAE;
-  --color-green-400: #00DC82;
-  --color-green-500: #00C16A;
-  --color-green-600: #00A155;
-  --color-green-700: #007F45;
-  --color-green-800: #016538;
-  --color-green-900: #0A5331;
-  --color-green-950: #052E16;
+  --font-theme-fantasy-body: 'Cormorant Garamond', serif;
+  --font-theme-fantasy-heading: 'Cinzel Decorative', serif;
+  --font-theme-cyberpunk-body: 'Rajdhani', sans-serif;
+  --font-theme-cyberpunk-heading: 'Orbitron', sans-serif;
+  --font-theme-synthwave-body: 'Exo 2', sans-serif;
+  --font-theme-synthwave-heading: 'Audiowide', sans-serif;
+  --font-theme-western-body: 'IM Fell English', serif;
+  --font-theme-western-heading: 'Rye', serif;
+  --font-theme-paper-tabletop-body: 'Source Sans 3', sans-serif;
+  --font-theme-paper-tabletop-heading: 'Playfair Display', serif;
+  --font-theme-ancient-body: 'Spectral', serif;
+  --font-theme-ancient-heading: 'Cormorant SC', serif;
+  --font-theme-medieval-body: 'Alegreya', serif;
+  --font-theme-medieval-heading: 'Uncial Antiqua', serif;
+  --font-theme-horror-body: 'Spectral', serif;
+  --font-theme-horror-heading: 'Creepster', serif;
+  --font-theme-lovecraftian-body: 'EB Garamond', serif;
+  --font-theme-lovecraftian-heading: 'Grenze Gotisch', serif;
+
+  --color-violet-50: #F5F3FF;
+  --color-violet-100: #EDE9FE;
+  --color-violet-200: #DDD6FE;
+  --color-violet-300: #C4B5FD;
+  --color-violet-400: #A78BFA;
+  --color-violet-500: #8B5CF6;
+  --color-violet-600: #7C3AED;
+  --color-violet-700: #6D28D9;
+  --color-violet-800: #5B21B6;
+  --color-violet-900: #4C1D95;
+  --color-violet-950: #2E1065;
+}
+
+:root {
+  color-scheme: light;
+  --theme-body-font: var(--font-theme-fantasy-body);
+  --theme-heading-font: var(--font-theme-fantasy-heading);
+  --theme-bg-image:
+    radial-gradient(circle at top left, rgb(168 85 247 / 0.18), transparent 30%),
+    radial-gradient(circle at top right, rgb(251 191 36 / 0.16), transparent 28%),
+    linear-gradient(180deg, rgb(255 251 235 / 0.96), rgb(248 241 225 / 0.98));
+
+  --ui-primary: #8B5CF6;
+  --ui-secondary: #D97706;
+  --ui-success: #16A34A;
+  --ui-info: #0284C7;
+  --ui-warning: #CA8A04;
+  --ui-error: #DC2626;
+
+  --ui-bg: #FAF3E4;
+  --ui-bg-muted: #F3E7D0;
+  --ui-bg-elevated: #FFF9F0;
+  --ui-bg-accented: #EAD6B3;
+  --ui-bg-inverted: #20160D;
+
+  --ui-text-dimmed: #8F7A5F;
+  --ui-text-muted: #6E5940;
+  --ui-text-toned: #4F3E2A;
+  --ui-text: #3A2B1A;
+  --ui-text-highlighted: #1F140B;
+  --ui-text-inverted: #FFF9F0;
+
+  --ui-border: #D9C7AA;
+  --ui-border-muted: #E6D8C1;
+  --ui-border-accented: #C2AD8B;
+  --ui-border-inverted: #2A1B0F;
+}
+
+html[data-theme='fantasy'] {
+  color-scheme: light;
+  --theme-body-font: var(--font-theme-fantasy-body);
+  --theme-heading-font: var(--font-theme-fantasy-heading);
+  --theme-bg-image:
+    radial-gradient(circle at top left, rgb(168 85 247 / 0.18), transparent 30%),
+    radial-gradient(circle at top right, rgb(251 191 36 / 0.16), transparent 28%),
+    linear-gradient(180deg, rgb(255 251 235 / 0.96), rgb(248 241 225 / 0.98));
+  --ui-primary: #8B5CF6;
+  --ui-secondary: #D97706;
+  --ui-success: #16A34A;
+  --ui-info: #0284C7;
+  --ui-warning: #CA8A04;
+  --ui-error: #DC2626;
+  --ui-bg: #FAF3E4;
+  --ui-bg-muted: #F3E7D0;
+  --ui-bg-elevated: #FFF9F0;
+  --ui-bg-accented: #EAD6B3;
+  --ui-bg-inverted: #20160D;
+  --ui-text-dimmed: #8F7A5F;
+  --ui-text-muted: #6E5940;
+  --ui-text-toned: #4F3E2A;
+  --ui-text: #3A2B1A;
+  --ui-text-highlighted: #1F140B;
+  --ui-text-inverted: #FFF9F0;
+  --ui-border: #D9C7AA;
+  --ui-border-muted: #E6D8C1;
+  --ui-border-accented: #C2AD8B;
+  --ui-border-inverted: #2A1B0F;
+}
+
+html[data-theme='cyberpunk'] {
+  color-scheme: dark;
+  --theme-body-font: var(--font-theme-cyberpunk-body);
+  --theme-heading-font: var(--font-theme-cyberpunk-heading);
+  --theme-bg-image:
+    radial-gradient(circle at top left, rgb(236 72 153 / 0.22), transparent 32%),
+    radial-gradient(circle at top right, rgb(34 211 238 / 0.2), transparent 30%),
+    radial-gradient(circle at bottom center, rgb(168 85 247 / 0.18), transparent 34%),
+    linear-gradient(180deg, #0B1022 0%, #050814 100%);
+  --ui-primary: #22D3EE;
+  --ui-secondary: #F472B6;
+  --ui-success: #34D399;
+  --ui-info: #60A5FA;
+  --ui-warning: #FBBF24;
+  --ui-error: #FB7185;
+  --ui-bg: #070B16;
+  --ui-bg-muted: #0D1325;
+  --ui-bg-elevated: #121A33;
+  --ui-bg-accented: #1A2648;
+  --ui-bg-inverted: #F8FAFC;
+  --ui-text-dimmed: #6B7AA8;
+  --ui-text-muted: #8C97C2;
+  --ui-text-toned: #C0CAE7;
+  --ui-text: #DCE7FF;
+  --ui-text-highlighted: #FFFFFF;
+  --ui-text-inverted: #060913;
+  --ui-border: #21304E;
+  --ui-border-muted: #18243F;
+  --ui-border-accented: #2E4473;
+  --ui-border-inverted: #F8FAFC;
+}
+
+html[data-theme='synthwave'] {
+  color-scheme: dark;
+  --theme-body-font: var(--font-theme-synthwave-body);
+  --theme-heading-font: var(--font-theme-synthwave-heading);
+  --theme-bg-image:
+    radial-gradient(circle at top, rgb(244 114 182 / 0.25), transparent 28%),
+    radial-gradient(circle at bottom right, rgb(59 130 246 / 0.22), transparent 30%),
+    linear-gradient(180deg, #2B1248 0%, #12071F 100%);
+  --ui-primary: #FB7185;
+  --ui-secondary: #38BDF8;
+  --ui-success: #34D399;
+  --ui-info: #A78BFA;
+  --ui-warning: #FDE047;
+  --ui-error: #FB7185;
+  --ui-bg: #10081C;
+  --ui-bg-muted: #1A0F2E;
+  --ui-bg-elevated: #24133D;
+  --ui-bg-accented: #35205A;
+  --ui-bg-inverted: #FFF7ED;
+  --ui-text-dimmed: #8F7DB5;
+  --ui-text-muted: #B3A1D9;
+  --ui-text-toned: #DDD1F6;
+  --ui-text: #F4ECFF;
+  --ui-text-highlighted: #FFFFFF;
+  --ui-text-inverted: #12071F;
+  --ui-border: #3A275F;
+  --ui-border-muted: #2A1B45;
+  --ui-border-accented: #55377D;
+  --ui-border-inverted: #FFF7ED;
+}
+
+html[data-theme='western'] {
+  color-scheme: light;
+  --theme-body-font: var(--font-theme-western-body);
+  --theme-heading-font: var(--font-theme-western-heading);
+  --theme-bg-image:
+    radial-gradient(circle at top left, rgb(180 83 9 / 0.16), transparent 30%),
+    radial-gradient(circle at bottom right, rgb(120 53 15 / 0.14), transparent 32%),
+    linear-gradient(180deg, #F2D3A3 0%, #E0B97E 100%);
+  --ui-primary: #9A3412;
+  --ui-secondary: #CA8A04;
+  --ui-success: #166534;
+  --ui-info: #0369A1;
+  --ui-warning: #D97706;
+  --ui-error: #B91C1C;
+  --ui-bg: #F2D3A3;
+  --ui-bg-muted: #E7BF88;
+  --ui-bg-elevated: #F8E5C6;
+  --ui-bg-accented: #D7A86B;
+  --ui-bg-inverted: #28180D;
+  --ui-text-dimmed: #85633C;
+  --ui-text-muted: #694B29;
+  --ui-text-toned: #4F351A;
+  --ui-text: #382510;
+  --ui-text-highlighted: #1F1208;
+  --ui-text-inverted: #FFF2D9;
+  --ui-border: #C69A5E;
+  --ui-border-muted: #D8B07E;
+  --ui-border-accented: #AF8048;
+  --ui-border-inverted: #2D1A0D;
+}
+
+html[data-theme='paper-tabletop'] {
+  color-scheme: light;
+  --theme-body-font: var(--font-theme-paper-tabletop-body);
+  --theme-heading-font: var(--font-theme-paper-tabletop-heading);
+  --theme-bg-image:
+    radial-gradient(circle at top left, rgb(148 163 184 / 0.18), transparent 24%),
+    radial-gradient(circle at top right, rgb(251 191 36 / 0.12), transparent 26%),
+    linear-gradient(180deg, #F8F5EF 0%, #EEE6DA 100%);
+  --ui-primary: #475569;
+  --ui-secondary: #7C3AED;
+  --ui-success: #15803D;
+  --ui-info: #0369A1;
+  --ui-warning: #B45309;
+  --ui-error: #B91C1C;
+  --ui-bg: #F8F5EF;
+  --ui-bg-muted: #EEE6DA;
+  --ui-bg-elevated: #FFFDF9;
+  --ui-bg-accented: #E3D8C6;
+  --ui-bg-inverted: #1C1917;
+  --ui-text-dimmed: #7E766A;
+  --ui-text-muted: #5E564B;
+  --ui-text-toned: #453F36;
+  --ui-text: #292524;
+  --ui-text-highlighted: #171412;
+  --ui-text-inverted: #FFFDF9;
+  --ui-border: #D6CCBD;
+  --ui-border-muted: #E5DDCF;
+  --ui-border-accented: #C7BBA8;
+  --ui-border-inverted: #292524;
+}
+
+html[data-theme='ancient'] {
+  color-scheme: light;
+  --theme-body-font: var(--font-theme-ancient-body);
+  --theme-heading-font: var(--font-theme-ancient-heading);
+  --theme-bg-image:
+    radial-gradient(circle at top left, rgb(161 98 7 / 0.18), transparent 28%),
+    radial-gradient(circle at bottom right, rgb(45 212 191 / 0.08), transparent 34%),
+    linear-gradient(180deg, #E3D7BF 0%, #CDBA95 100%);
+  --ui-primary: #7C3AED;
+  --ui-secondary: #9A3412;
+  --ui-success: #166534;
+  --ui-info: #0F766E;
+  --ui-warning: #B45309;
+  --ui-error: #991B1B;
+  --ui-bg: #E3D7BF;
+  --ui-bg-muted: #D7C7A7;
+  --ui-bg-elevated: #F2E8D8;
+  --ui-bg-accented: #C8B08A;
+  --ui-bg-inverted: #231B11;
+  --ui-text-dimmed: #7E6B4F;
+  --ui-text-muted: #65533A;
+  --ui-text-toned: #4C3A22;
+  --ui-text: #352719;
+  --ui-text-highlighted: #1E160E;
+  --ui-text-inverted: #F9F3E8;
+  --ui-border: #BFA986;
+  --ui-border-muted: #D0BEA0;
+  --ui-border-accented: #A78C61;
+  --ui-border-inverted: #2B2115;
+}
+
+html[data-theme='medieval'] {
+  color-scheme: dark;
+  --theme-body-font: var(--font-theme-medieval-body);
+  --theme-heading-font: var(--font-theme-medieval-heading);
+  --theme-bg-image:
+    radial-gradient(circle at top left, rgb(248 113 113 / 0.16), transparent 28%),
+    radial-gradient(circle at bottom right, rgb(251 191 36 / 0.1), transparent 32%),
+    linear-gradient(180deg, #201319 0%, #0D0A10 100%);
+  --ui-primary: #C026D3;
+  --ui-secondary: #EF4444;
+  --ui-success: #22C55E;
+  --ui-info: #38BDF8;
+  --ui-warning: #F59E0B;
+  --ui-error: #F43F5E;
+  --ui-bg: #120D14;
+  --ui-bg-muted: #1A1320;
+  --ui-bg-elevated: #221826;
+  --ui-bg-accented: #312233;
+  --ui-bg-inverted: #F9F5F0;
+  --ui-text-dimmed: #7D6B84;
+  --ui-text-muted: #B49DBC;
+  --ui-text-toned: #D6C5DB;
+  --ui-text: #F6EDF8;
+  --ui-text-highlighted: #FFFFFF;
+  --ui-text-inverted: #140D16;
+  --ui-border: #392943;
+  --ui-border-muted: #2A1D31;
+  --ui-border-accented: #4B3557;
+  --ui-border-inverted: #F9F5F0;
+}
+
+html[data-theme='horror'] {
+  color-scheme: dark;
+  --theme-body-font: var(--font-theme-horror-body);
+  --theme-heading-font: var(--font-theme-horror-heading);
+  --theme-bg-image:
+    radial-gradient(circle at top left, rgb(185 28 28 / 0.22), transparent 30%),
+    radial-gradient(circle at bottom right, rgb(120 113 108 / 0.12), transparent 30%),
+    linear-gradient(180deg, #0A0A0B 0%, #140607 100%);
+  --ui-primary: #F43F5E;
+  --ui-secondary: #FB7185;
+  --ui-success: #4ADE80;
+  --ui-info: #38BDF8;
+  --ui-warning: #F59E0B;
+  --ui-error: #FB7185;
+  --ui-bg: #0A0A0B;
+  --ui-bg-muted: #140607;
+  --ui-bg-elevated: #1E0B0D;
+  --ui-bg-accented: #2A1114;
+  --ui-bg-inverted: #FFF7F8;
+  --ui-text-dimmed: #7F6F72;
+  --ui-text-muted: #A98E93;
+  --ui-text-toned: #D2B6BC;
+  --ui-text: #F4EDEE;
+  --ui-text-highlighted: #FFFFFF;
+  --ui-text-inverted: #0A0A0B;
+  --ui-border: #3B1F24;
+  --ui-border-muted: #2A1418;
+  --ui-border-accented: #5E2A31;
+  --ui-border-inverted: #FFF7F8;
+}
+
+html[data-theme='lovecraftian'] {
+  color-scheme: dark;
+  --theme-body-font: var(--font-theme-lovecraftian-body);
+  --theme-heading-font: var(--font-theme-lovecraftian-heading);
+  --theme-bg-image:
+    radial-gradient(circle at top left, rgb(45 212 191 / 0.18), transparent 28%),
+    radial-gradient(circle at top right, rgb(16 185 129 / 0.14), transparent 30%),
+    radial-gradient(circle at bottom center, rgb(24 44 73 / 0.2), transparent 36%),
+    linear-gradient(180deg, #08131F 0%, #02060B 100%);
+  --ui-primary: #2DD4BF;
+  --ui-secondary: #14B8A6;
+  --ui-success: #34D399;
+  --ui-info: #60A5FA;
+  --ui-warning: #EAB308;
+  --ui-error: #F87171;
+  --ui-bg: #061018;
+  --ui-bg-muted: #0C1B27;
+  --ui-bg-elevated: #102434;
+  --ui-bg-accented: #183447;
+  --ui-bg-inverted: #F3FFF9;
+  --ui-text-dimmed: #6F8A93;
+  --ui-text-muted: #97AAB1;
+  --ui-text-toned: #CAE0E2;
+  --ui-text: #EAF8F4;
+  --ui-text-highlighted: #FFFFFF;
+  --ui-text-inverted: #071019;
+  --ui-border: #1E3A4D;
+  --ui-border-muted: #152838;
+  --ui-border-accented: #295064;
+  --ui-border-inverted: #F3FFF9;
+}
+
+body {
+  @apply antialiased bg-default text-default;
+  min-height: 100dvh;
+  font-family: var(--theme-body-font);
+  background-image: var(--theme-bg-image);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--theme-heading-font);
+  color: var(--ui-text-highlighted);
 }
 
 .panel-shell {
-  @apply flex h-full flex-col overflow-hidden rounded-lg border border-default;
+  @apply flex h-full flex-col overflow-hidden rounded-lg border border-default bg-elevated/75 backdrop-blur-xl;
 }
 
 .panel-shell__header {
-  @apply flex items-center justify-between border-b border-default bg-muted/30 px-3 py-2;
+  @apply flex items-center justify-between border-b border-default bg-muted/55 px-3 py-2 backdrop-blur;
 }
 
 .panel-shell__title-wrap {
@@ -30,7 +386,7 @@
 }
 
 .panel-shell__title {
-  @apply truncate text-xs font-semibold uppercase tracking-wide text-muted;
+  @apply truncate text-xs font-semibold uppercase tracking-[0.22em] text-muted font-heading;
 }
 
 .panel-shell__controls {
@@ -42,12 +398,12 @@
 }
 
 .panel-float {
-  @apply fixed flex flex-col overflow-hidden rounded-lg border border-default bg-default shadow-2xl;
+  @apply fixed flex flex-col overflow-hidden rounded-lg border border-default bg-elevated/92 shadow-2xl backdrop-blur-2xl;
   box-shadow: 0 20px 40px -14px rgb(0 0 0 / 0.45);
 }
 
 .panel-float__header {
-  @apply flex cursor-move items-center justify-between border-b border-default bg-muted/30 px-3 py-2;
+  @apply flex cursor-move items-center justify-between border-b border-default bg-muted/55 px-3 py-2 backdrop-blur;
 }
 
 .panel-float__title-wrap {
@@ -55,7 +411,7 @@
 }
 
 .panel-float__title {
-  @apply truncate text-xs font-semibold uppercase tracking-wide text-muted;
+  @apply truncate text-xs font-semibold uppercase tracking-[0.22em] text-muted font-heading;
 }
 
 .panel-float__controls {
