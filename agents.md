@@ -36,6 +36,8 @@ This file gives coding agents the minimum context needed to work safely and quic
 - Keep functions focused and side effects obvious.
 - Follow existing naming and file organization conventions in nearby code.
 - Keep UI changes consistent with Nuxt UI patterns already used in this repo.
+- Before making implementation decisions, check the latest official docs for Nuxt UI, Nuxt, Vue, and Tailwind CSS.
+- Prefer current documented patterns from those stacks when executing tasks in this repo.
 - Do not hardcode secrets or environment-specific credentials.
 
 ## Chat Flow Notes
