@@ -14,9 +14,18 @@
     />
 
     <template #prompt>
+      <div class="px-4 pt-2 pb-1">
+        <USelect
+          v-model="provider"
+          :items="providerItems"
+          size="sm"
+          class="max-w-44"
+        />
+      </div>
+
       <UChatPrompt
         v-model="input"
-        :loading="status === 'submitted' || status === 'streaming'"
+        :loading="status === 'submitted'"
         @submit="onSubmit"
       >
         <UChatPromptSubmit
@@ -30,8 +39,10 @@
 </template>
 
 <script setup lang="ts">
+import type { TChatProvider } from '~/shared/chat'
+
 type ChatRole = 'user' | 'assistant' | 'system'
-type ChatStatus = 'ready' | 'submitted' | 'streaming' | 'error'
+type ChatStatus = 'ready' | 'submitted' | 'error'
 
 interface ChatPart {
   type: 'text'
@@ -44,13 +55,25 @@ interface UIChatMessage {
   parts: ChatPart[]
 }
 
-interface StreamedAssistantMessage extends UIChatMessage {
-  done: boolean
+interface ChatMessageResponse {
+  reply?: string
+  provider?: TChatProvider
+}
+
+interface ChatErrorResponse {
+  statusMessage?: string
+  message?: string
 }
 
 const status = ref<ChatStatus>('ready')
 const input = ref('')
 const messages = ref<UIChatMessage[]>([])
+const providerItems = [
+  { label: 'Qwen3', value: 'qwen3' },
+  { label: 'OpenClaw', value: 'openclaw' }
+]
+
+const { provider, chatId } = useChatSettings()
 
 let lastUserMessageContent = ''
 let abortController: AbortController | null = null
@@ -76,83 +99,43 @@ const pushAssistantError = (errorText: string) => {
   })
 }
 
-const streamAssistantResponse = async (response: Response) => {
-  if (!response.body) {
-    throw new Error('Missing response stream.')
-  }
+const getResponseErrorMessage = async (response: Response): Promise<string> => {
+  const fallback = 'Chat request failed.'
 
-  const decoder = new TextDecoder()
-  const reader = response.body.getReader()
+  const contentType = response.headers.get('content-type') || ''
 
-  let buffer = ''
-  let assistantMessageId = ''
+  if (contentType.includes('application/json')) {
+    const parsed = await response.json().catch(() => null) as ChatErrorResponse | null
 
-  while (true) {
-    const { done, value } = await reader.read()
-
-    if (done) {
-      break
+    if (typeof parsed?.statusMessage === 'string' && parsed.statusMessage.trim().length > 0) {
+      return parsed.statusMessage
     }
 
-    buffer += decoder.decode(value, { stream: true })
-
-    const lines = buffer.split('\n')
-    buffer = lines.pop() ?? ''
-
-    for (const line of lines) {
-      const chunk = line.trim()
-
-      if (!chunk) {
-        continue
-      }
-
-      let streamed: StreamedAssistantMessage
-
-      try {
-        streamed = JSON.parse(chunk)
-      } catch {
-        continue
-      }
-
-      if (!streamed?.id || streamed.role !== 'assistant' || !Array.isArray(streamed.parts)) {
-        continue
-      }
-
-      if (!assistantMessageId) {
-        assistantMessageId = streamed.id
-        messages.value.push({
-          id: streamed.id,
-          role: streamed.role,
-          parts: streamed.parts
-        })
-      } else {
-        const assistantIndex = messages.value.findIndex(message => message.id === assistantMessageId)
-
-        if (assistantIndex >= 0) {
-          messages.value[assistantIndex] = {
-            id: streamed.id,
-            role: streamed.role,
-            parts: streamed.parts
-          }
-        }
-      }
-
-      status.value = streamed.done ? 'ready' : 'streaming'
+    if (typeof parsed?.message === 'string' && parsed.message.trim().length > 0) {
+      return parsed.message
     }
+
+    return fallback
   }
+
+  const reason = await response.text().catch(() => '')
+  return reason.trim() || fallback
 }
 
-const sendMessages = async () => {
+const sendMessage = async (content: string) => {
   abortController = new AbortController()
   status.value = 'submitted'
 
-  const response = await fetch('/api/chat', {
+  const response = await fetch('/api/chat/message', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     signal: abortController.signal,
     body: JSON.stringify({
+      message: content,
+      chatId: chatId.value,
+      provider: provider.value,
       messages: messages.value.map(message => ({
         role: message.role,
         content: toContent(message)
@@ -161,19 +144,30 @@ const sendMessages = async () => {
   })
 
   if (!response.ok) {
-    const reason = await response.text().catch(() => '')
-    throw new Error(reason || 'Chat request failed.')
+    const reason = await getResponseErrorMessage(response)
+    throw new Error(reason)
   }
 
-  status.value = 'streaming'
-  await streamAssistantResponse(response)
+  const parsed = await response.json() as ChatMessageResponse
+  const reply = typeof parsed.reply === 'string' ? parsed.reply.trim() : ''
+
+  if (!reply) {
+    throw new Error('The provider returned an empty reply.')
+  }
+
+  messages.value.push({
+    id: crypto.randomUUID(),
+    role: 'assistant',
+    parts: [{ type: 'text', text: reply }]
+  })
+
   status.value = 'ready'
 }
 
 const onSubmit = async (event: Event) => {
   event.preventDefault()
 
-  if (status.value === 'submitted' || status.value === 'streaming') {
+  if (status.value === 'submitted') {
     return
   }
 
@@ -194,7 +188,7 @@ const onSubmit = async (event: Event) => {
   input.value = ''
 
   try {
-    await sendMessages()
+    await sendMessage(content)
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
       status.value = 'ready'
@@ -213,7 +207,7 @@ const onStop = () => {
 }
 
 const onReload = async () => {
-  if (!lastUserMessageContent || status.value === 'submitted' || status.value === 'streaming') {
+  if (!lastUserMessageContent || status.value === 'submitted') {
     return
   }
 
@@ -224,7 +218,7 @@ const onReload = async () => {
   })
 
   try {
-    await sendMessages()
+    await sendMessage(lastUserMessageContent)
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
       status.value = 'ready'
