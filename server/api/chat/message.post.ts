@@ -18,6 +18,7 @@ interface IChatMessage {
 interface IChatMessageRequestBody {
   message?: string
   chatId?: string
+  username?: string
   provider?: TChatProvider
   messages?: IChatMessage[]
 }
@@ -92,7 +93,11 @@ const normalizeIdentifier = (value: string, fallback: string): string => {
   return normalized.length > 0 ? normalized : fallback
 }
 
-const resolveUserId = (event: H3Event): string => {
+const resolveUserId = (event: H3Event, username?: string): string => {
+  if (typeof username === 'string' && username.trim().length > 0) {
+    return normalizeIdentifier(username, 'anonymous')
+  }
+
   const context = event.context as Record<string, unknown>
   const user = context.user
 
@@ -122,7 +127,7 @@ export default defineEventHandler(async (event) => {
   const defaultProvider = getProvider(runtimeConfig.public.chat.defaultProvider, 'qwen3')
   const provider = getProvider(body.provider, defaultProvider)
   const chatId = normalizeIdentifier(body.chatId ?? '', 'default')
-  const userId = resolveUserId(event)
+  const userId = resolveUserId(event, body.username)
 
   try {
     const chatProvider = resolveProvider(provider)

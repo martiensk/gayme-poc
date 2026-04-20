@@ -73,7 +73,7 @@ const providerItems = [
   { label: 'OpenClaw', value: 'openclaw' }
 ]
 
-const { provider, chatId } = useChatSettings()
+const { provider, chatId, username } = useChatSettings()
 
 let lastUserMessageContent = ''
 let abortController: AbortController | null = null
@@ -143,6 +143,7 @@ const sendMessage = async (content: string) => {
     body: JSON.stringify({
       message: content,
       chatId: chatId.value,
+      username: username.value,
       provider: provider.value,
       messages: messages.value.map(message => ({
         role: message.role,

@@ -1,4 +1,5 @@
-<script setup>
+<script setup lang="ts">
+const settingsOpen = ref(false)
 const { theme } = useDashboardTheme()
 
 useHead(() => ({
@@ -32,7 +33,26 @@ useSeoMeta({
   <UApp>
     <UHeader title="GameMaster">
       <template #right>
-        <ThemePicker />
+        <div class="flex items-center gap-2">
+          <USlideover
+            v-model:open="settingsOpen"
+            title="Settings"
+            description="Update chat preferences"
+            side="right"
+          >
+            <UButton
+              color="neutral"
+              variant="ghost"
+              icon="i-lucide-menu"
+              aria-label="Open settings"
+            />
+
+            <template #body>
+              <DashboardSettings />
+            </template>
+          </USlideover>
+          <ThemePicker />
+        </div>
       </template>
     </UHeader>
 
